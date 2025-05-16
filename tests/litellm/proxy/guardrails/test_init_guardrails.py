@@ -18,6 +18,8 @@ def test_initialize_presidio_guardrail():
     Test that initialize_guardrail correctly uses registered initializers
     for presidio guardrail
     """
+    import os
+    
     # Setup test data for a non-custom guardrail (using Presidio as an example)
     test_guardrail = {
         "guardrail_name": "test_presidio_guardrail",
@@ -28,6 +30,10 @@ def test_initialize_presidio_guardrail():
             "presidio_anonymizer_api_base": "https://fakelink.com/v1/presidio/anonymize",
         },
     }
+
+    # Set required environment variables to prevent initialization errors
+    os.environ["PRESIDIO_ANALYZER_API_BASE"] = "https://fakelink.com/v1/presidio/analyze"
+    os.environ["PRESIDIO_ANONYMIZER_API_BASE"] = "https://fakelink.com/v1/presidio/anonymize"
 
     # Call the initialize_guardrail method
     result = InitializeGuardrails.initialize_guardrail(

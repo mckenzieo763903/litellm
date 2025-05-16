@@ -113,7 +113,7 @@ class _OPTIONAL_PresidioPIIMasking(CustomGuardrail):
         )  # type: ignore
 
         if self.presidio_analyzer_api_base is None:
-            raise Exception("Missing `PRESIDIO_ANALYZER_API_BASE` from environment")
+            self.presidio_analyzer_api_base = "http://localhost:5002"
         if not self.presidio_analyzer_api_base.endswith("/"):
             self.presidio_analyzer_api_base += "/"
         if not (
