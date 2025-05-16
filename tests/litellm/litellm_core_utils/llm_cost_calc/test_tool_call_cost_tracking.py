@@ -131,6 +131,6 @@ def test_get_cost_for_anthropic_web_search():
         model=model,
         usage=usage,
         response_object=None,
-        standard_built_in_tools_params=None,
+        standard_built_in_tools_params={},
     )
     assert cost > 0.0
