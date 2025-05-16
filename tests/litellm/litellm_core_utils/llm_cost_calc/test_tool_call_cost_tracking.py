@@ -119,11 +119,16 @@ def test_get_cost_for_built_in_tools_file_search():
     assert cost == 0.00
 
 
-def test_get_cost_for_anthropic_web_search():
+def test_get_cost_for_anthropic_web_search(monkeypatch):
     """
-    Test that the cost for a web search is 0.00 when no response object is provided
+    Test that the cost for a web search is greater than 0 when usage reports
+    server_tool_use.web_search_requests, even if no response object is provided
     """
+    import litellm
     from litellm.types.utils import ServerToolUse, Usage
+
+    monkeypatch.setenv("LITELLM_LOCAL_MODEL_COST_MAP", "True")
+    monkeypatch.setattr(litellm, "model_cost", litellm.get_model_cost_map(url=""))
 
     model = "claude-3-7-sonnet-latest"
     usage = Usage(server_tool_use=ServerToolUse(web_search_requests=1))
