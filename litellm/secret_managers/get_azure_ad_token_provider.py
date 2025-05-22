@@ -32,6 +32,7 @@ def get_azure_ad_token_provider() -> Callable[[], str]:
     cred: Union[AzureCredentialType, str] = AzureCredentialType(
         os.environ.get("AZURE_CREDENTIAL", AzureCredentialType.ClientSecretCredential)
     )
+    credential: Any = None
     if cred == AzureCredentialType.ClientSecretCredential:
         credential = ClientSecretCredential(
             client_id=os.environ["AZURE_CLIENT_ID"],
