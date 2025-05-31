@@ -1614,7 +1614,8 @@ class VertexLLM(VertexBase):
 
         try:
             response = client.post(url=url, headers=headers, json=data)  # type: ignore
-            response.raise_for_status()
+            if hasattr(response, 'raise_for_status'):
+                response.raise_for_status()
         except httpx.HTTPStatusError as err:
             error_code = err.response.status_code
             raise VertexAIError(
