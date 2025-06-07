@@ -1704,8 +1704,8 @@ class VertexLLM(VertexBase):
                     timeout = httpx.Timeout(timeout)
                 _params["timeout"] = timeout
             client = HTTPHandler(**_params)  # type: ignore
-        else:
-            client = client
+        elif not isinstance(client, HTTPHandler):
+            raise ValueError("client must be an instance of HTTPHandler or AsyncHTTPHandler")
 
         try:
             response = client.post(url=url, headers=headers, json=data)  # type: ignore
