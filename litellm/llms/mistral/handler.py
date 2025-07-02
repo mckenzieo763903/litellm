@@ -46,7 +46,7 @@ def completion(
     return base_llm_http_handler.completion(
         model=model,
         messages=messages,
-        api_base=api_base,
+        api_base=api_base if api_base is not None else "",
         custom_llm_provider=custom_llm_provider,
         model_response=model_response,
         encoding=encoding,
