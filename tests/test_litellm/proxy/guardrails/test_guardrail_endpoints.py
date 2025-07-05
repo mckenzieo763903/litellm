@@ -135,6 +135,11 @@ async def test_get_guardrail_info_from_config(
         return_value=None
     )
 
+    # Mock the in-memory handler to return a LitellmParams instance instead of a dict
+    mock_in_memory_handler.get_guardrail_by_id = AsyncMock(
+        return_value=MOCK_DB_GUARDRAIL
+    )
+
     response = await get_guardrail_info("test-config-guardrail")
 
     assert response.guardrail_id == "test-config-guardrail"

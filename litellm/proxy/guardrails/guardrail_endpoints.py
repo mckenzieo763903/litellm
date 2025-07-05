@@ -592,9 +592,13 @@ async def get_guardrail_info(guardrail_id: str):
             )
 
         litellm_params: Optional[LitellmParams] = result.get("litellm_params")
-        result_litellm_params_dict = (
-            litellm_params.model_dump(exclude_none=True) if litellm_params else {}
-        )
+        if litellm_params:
+            if isinstance(litellm_params, dict):
+                result_litellm_params_dict = litellm_params
+            else:
+                result_litellm_params_dict = litellm_params.model_dump(exclude_none=True)
+        else:
+            result_litellm_params_dict = {}
         masked_litellm_params_dict = _get_masked_values(
             result_litellm_params_dict,
             unmasked_length=4,
