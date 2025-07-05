@@ -482,9 +482,13 @@ async def patch_guardrail(guardrail_id: str, request: PatchGuardrailRequest):
         )
 
         # Update litellm_params if default_on is provided or pii_entities_config is provided
-        litellm_params = LitellmParams(
-            **dict(existing_guardrail.get("litellm_params", {}))
-        )
+        existing_litellm_params = existing_guardrail.get("litellm_params")
+        if isinstance(existing_litellm_params, LitellmParams):
+            litellm_params = existing_litellm_params
+        elif existing_litellm_params is not None:
+            litellm_params = LitellmParams(**existing_litellm_params)
+        else:
+            litellm_params = LitellmParams()
         if request.litellm_params is not None:
             requested_litellm_params = request.litellm_params.model_dump(
                 exclude_unset=True
@@ -591,10 +595,13 @@ async def get_guardrail_info(guardrail_id: str):
                 status_code=404, detail=f"Guardrail with ID {guardrail_id} not found"
             )
 
-        litellm_params: Optional[LitellmParams] = result.get("litellm_params")
-        result_litellm_params_dict = (
-            litellm_params.model_dump(exclude_none=True) if litellm_params else {}
-        )
+        litellm_params = result.get("litellm_params")
+        if isinstance(litellm_params, LitellmParams):
+            result_litellm_params_dict = litellm_params.model_dump(exclude_none=True)
+        elif litellm_params is not None:
+            result_litellm_params_dict = litellm_params
+        else:
+            result_litellm_params_dict = {}
         masked_litellm_params_dict = _get_masked_values(
             result_litellm_params_dict,
             unmasked_length=4,
