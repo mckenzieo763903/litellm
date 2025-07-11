@@ -103,7 +103,7 @@ def test_completion_github_copilot_mock_response(mock_completion, mock_get_api_k
     }
 
     response = completion(
-        model="github_copilot/gpt-4",
+        model="gpt-4",
         messages=messages,
         extra_headers=headers,
     )
