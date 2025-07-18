@@ -24,7 +24,7 @@ def setup_anthropic_api_key(monkeypatch):
     monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-some-key")
 
 
-class TestCustomPromptManagement(CustomPromptManagement):
+class TestCustomPromptManagement:
     def get_chat_completion_prompt(
         self,
         model: str,

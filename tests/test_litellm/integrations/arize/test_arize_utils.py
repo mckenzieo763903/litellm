@@ -181,7 +181,7 @@ def test_arize_set_attributes():
     span.set_attribute.assert_any_call(SpanAttributes.LLM_TOKEN_COUNT_PROMPT, 40)
 
 
-class TestArizeLogger(CustomLogger):
+class ArizeLogger(CustomLogger):
     """
     Custom logger implementation to capture standard_callback_dynamic_params.
     Used to verify that dynamic config keys are being passed to callbacks.

@@ -148,7 +148,7 @@ class TestOpenAIResponsesAPIConfig:
             assert result.type == ResponsesAPIStreamEvents.RESPONSE_COMPLETED
             assert result.response.id == "resp_123"
     
-    @pytest.mark.serial
+    # @pytest.mark.serial
     def test_validate_environment(self):
         """Test that validate_environment correctly sets the Authorization header"""
         # Test with provided API key

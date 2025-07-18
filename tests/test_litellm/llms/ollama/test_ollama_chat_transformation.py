@@ -13,7 +13,7 @@ from litellm.llms.ollama.chat.transformation import OllamaChatConfig
 from litellm.utils import get_optional_params
 
 
-class TestEvent(BaseModel):
+class TestDataEvent(BaseModel):
     name: str
     value: int
 
