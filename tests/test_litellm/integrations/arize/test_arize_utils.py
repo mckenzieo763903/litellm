@@ -187,12 +187,6 @@ class TestArizeLogger(CustomLogger):
     Used to verify that dynamic config keys are being passed to callbacks.
     """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.standard_callback_dynamic_params: Optional[
-            StandardCallbackDynamicParams
-        ] = None
-
     async def async_log_success_event(self, kwargs, response_obj, start_time, end_time):
         # Capture dynamic params and print them for verification
         print("logged kwargs", json.dumps(kwargs, indent=4, default=str))

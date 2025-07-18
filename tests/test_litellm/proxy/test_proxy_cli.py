@@ -10,7 +10,6 @@ sys.path.insert(
 
 from litellm.proxy.proxy_cli import ProxyInitializationHelpers
 import builtins
-from litellm.proxy.proxy_cli import run_separate_health_app
 import types
 
 
