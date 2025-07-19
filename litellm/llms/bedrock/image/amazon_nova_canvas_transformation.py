@@ -128,13 +128,13 @@ class AmazonNovaCanvasConfig:
                 imageGenerationConfig=image_generation_config_typed,
             )
         if task_type == "INPAINTING":
-            inpainting_params: Dict[str, Any] = image_generation_config.pop(
+            inpainting_params = image_generation_config.pop(
                 "inpaintingParams", {}
             )
             inpainting_params = {"text": text, **inpainting_params}
             try:
                 inpainting_params_typed = AmazonNovaCanvasInpaintingParams(
-                    **inpainting_params
+                    **inpainting_params  # type: ignore
                 )
             except Exception as e:
                 raise ValueError(
