@@ -151,6 +151,13 @@ async def test_url_with_format_param(model, sync_mode, monkeypatch):
     else:
         client = AsyncHTTPHandler()
 
+    # Use a base64 encoded image string instead of an external URL to avoid network dependencies
+    import base64
+    # Minimal valid PNG image (1x1 pixel, red)
+    png_image = base64.b64encode(
+        b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDATx\x9cc\xf8\x0f\x00\x00\x01\x01\x00\x05\x18\xd8N\x00\x00\x00\x00IEND\xaeB`\x82"
+    ).decode("utf-8")
+
     args = {
         "model": model,
         "messages": [
@@ -160,7 +167,7 @@ async def test_url_with_format_param(model, sync_mode, monkeypatch):
                     {
                         "type": "image_url",
                         "image_url": {
-                            "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                            "url": f"data:image/png;base64,{png_image}",
                             "format": "image/png",
                         },
                     },
