@@ -151,6 +151,8 @@ async def test_url_with_format_param(model, sync_mode, monkeypatch):
     else:
         client = AsyncHTTPHandler()
 
+    # Use a base64 encoded image to avoid external network dependencies in CI
+    base64_image = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
     args = {
         "model": model,
         "messages": [
@@ -160,7 +162,7 @@ async def test_url_with_format_param(model, sync_mode, monkeypatch):
                     {
                         "type": "image_url",
                         "image_url": {
-                            "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                            "url": f"data:image/png;base64,{base64_image}",
                             "format": "image/png",
                         },
                     },
@@ -209,6 +211,8 @@ async def test_url_with_format_param_openai(model, sync_mode):
     else:
         client = AsyncOpenAI()
 
+    # Use a base64 encoded image to avoid external network dependencies in CI
+    base64_image = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
     args = {
         "model": model,
         "messages": [
@@ -218,7 +222,7 @@ async def test_url_with_format_param_openai(model, sync_mode):
                     {
                         "type": "image_url",
                         "image_url": {
-                            "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                            "url": f"data:image/png;base64,{base64_image}",
                             "format": "image/png",
                         },
                     },

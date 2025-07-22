@@ -36,7 +36,7 @@ def _process_image_response(response: Response, url: str) -> str:
         }.get(img_type)
         if _img_type is None:
             raise Exception(
-                f"Error: Unsupported image format. Format={_img_type}. Supported types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']"
+                f"Error: Unsupported image format. Format={img_type}. Supported types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']"
             )
         img_type = _img_type
     else:
@@ -56,6 +56,10 @@ async def async_convert_url_to_base64(url: str) -> str:
     for _ in range(3):
         try:
             response = await client.get(url, follow_redirects=True)
+            if response.status_code != 200:
+                raise Exception(
+                    f"Error: Unable to fetch image from URL. Status code: {response.status_code}, url={url}"
+                )
             return _process_image_response(response, url)
         except Exception:
             pass
@@ -73,6 +77,10 @@ def convert_url_to_base64(url: str) -> str:
     for _ in range(3):
         try:
             response = client.get(url, follow_redirects=True)
+            if response.status_code != 200:
+                raise Exception(
+                    f"Error: Unable to fetch image from URL. Status code: {response.status_code}, url={url}"
+                )
             return _process_image_response(response, url)
         except Exception as e:
             verbose_logger.exception(e)
