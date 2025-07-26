@@ -293,8 +293,8 @@ if MCP_AVAILABLE:
                 if any(
                     server_alias.lower() in mcp_servers_lower
                     for server_alias in [
-                        global_mcp_server_manager.get_mcp_server_by_id(server_id).alias,
-                        global_mcp_server_manager.get_mcp_server_by_id(server_id).server_name,
+                        (server := global_mcp_server_manager.get_mcp_server_by_id(server_id)).alias if server else None,
+                        (server := global_mcp_server_manager.get_mcp_server_by_id(server_id)).server_name if server else None,
                         server_id,
                     ]
                     if server_alias is not None
