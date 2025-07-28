@@ -145,6 +145,7 @@ def test_completion_missing_role(openai_api_response):
 async def test_url_with_format_param(model, sync_mode, monkeypatch):
     from litellm import acompletion, completion
     from litellm.llms.custom_httpx.http_handler import AsyncHTTPHandler, HTTPHandler
+    from litellm.litellm_core_utils.prompt_templates.image_handling import fetch_image
 
     if sync_mode:
         client = HTTPHandler()
@@ -169,7 +170,11 @@ async def test_url_with_format_param(model, sync_mode, monkeypatch):
             }
         ],
     }
-    with patch.object(client, "post", new=MagicMock()) as mock_client:
+    
+    # Mock fetch_image to avoid external network calls and HTTP 403 errors
+    mock_image_response = b"fake_image_data"
+    with patch.object(client, "post", new=MagicMock()) as mock_client, \
+         patch.object(fetch_image, "__call__", return_value=mock_image_response):
         try:
             if sync_mode:
                 response = completion(**args, client=client)
@@ -177,7 +182,7 @@ async def test_url_with_format_param(model, sync_mode, monkeypatch):
                 response = await acompletion(**args, client=client)
             print(response)
         except Exception as e:
-            pass
+            raise e
 
         mock_client.assert_called()
 
