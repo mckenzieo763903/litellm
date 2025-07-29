@@ -4,7 +4,12 @@ import re
 import uuid
 import xml.etree.ElementTree as ET
 from enum import Enum
-from typing import Any, List, Literal, Optional, Tuple, Union, cast, overload
+from typing import Any, List, Optional, Tuple, Union, cast, overload
+
+try:
+    from typing import Literal
+except ImportError:
+    from typing_extensions import Literal
 
 from jinja2.sandbox import ImmutableSandboxedEnvironment
 
