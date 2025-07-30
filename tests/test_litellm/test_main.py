@@ -151,6 +151,9 @@ async def test_url_with_format_param(model, sync_mode, monkeypatch):
     else:
         client = AsyncHTTPHandler()
 
+    # Use an inline base64 PNG so the test does not depend on a live image download.
+    image_data_url = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+
     args = {
         "model": model,
         "messages": [
@@ -160,7 +163,7 @@ async def test_url_with_format_param(model, sync_mode, monkeypatch):
                     {
                         "type": "image_url",
                         "image_url": {
-                            "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                            "url": image_data_url,
                             "format": "image/png",
                         },
                     },
