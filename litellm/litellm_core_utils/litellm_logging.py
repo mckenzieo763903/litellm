@@ -1349,7 +1349,7 @@ class Logging(LiteLLMLoggingBaseClass):
                     model_call_details=self.model_call_details
                 ),
                 "call_type": self.call_type,
-                "optional_params": self.optional_params,
+                "optional_params": getattr(self, 'optional_params', None),
                 "custom_pricing": custom_pricing,
                 "prompt": prompt,
                 "standard_built_in_tools_params": self.standard_built_in_tools_params,
