@@ -36,7 +36,7 @@ def _process_image_response(response: Response, url: str) -> str:
         }.get(img_type)
         if _img_type is None:
             raise Exception(
-                f"Error: Unsupported image format. Format={_img_type}. Supported types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']"
+                f"Error: Unsupported image format. Format={img_type}. Supported types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']"
             )
         img_type = _img_type
     else:
