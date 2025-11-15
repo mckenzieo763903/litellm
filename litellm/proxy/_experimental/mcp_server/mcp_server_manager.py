@@ -816,9 +816,8 @@ class MCPServerManager:
 
         scope_value = params.get("scope")
         scopes = [s for s in (scope_value.split() if scope_value else []) if s]
-        scopes = scopes or None
 
-        return resource_metadata_url, scopes
+        return resource_metadata_url, scopes if scopes else None
 
     async def _fetch_oauth_metadata_from_resource(
         self, resource_metadata_url: str
