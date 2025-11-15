@@ -2818,7 +2818,9 @@ class ProxyConfig:
                 for k, v in _litellm_params.items():
                     if isinstance(v, str):
                         # decrypt value - returns original value if decryption fails or no key is set
-                        _value = decrypt_value_helper(value=v, key=k, return_original_value=True)
+                        _value = decrypt_value_helper(
+                            value=v, key=k, return_original_value=True
+                        )
                         _litellm_params[k] = _value
                 _litellm_params = LiteLLM_Params(**_litellm_params)
 
@@ -4182,7 +4184,8 @@ class ProxyStartupEvent:
 
             teams_pydantic_obj = [NewUserRequestTeam(**team) for team in _teams]
             await update_default_team_member_budget(
-                teams=teams_pydantic_obj, user_api_key_dict=UserAPIKeyAuth(token=hash_token(master_key))  # type: ignore
+                teams=teams_pydantic_obj,
+                user_api_key_dict=UserAPIKeyAuth(token=hash_token(master_key)),  # type: ignore
             )
 
     @classmethod
@@ -6511,7 +6514,7 @@ def _get_provider_token_counter(
     Uses the existing get_provider_model_info infrastructure with switch-case pattern.
     """
     if deployment is None:
-        return None
+        return None, None, None
 
     from litellm.litellm_core_utils.get_llm_provider_logic import get_llm_provider
 
@@ -8213,8 +8216,6 @@ async def fallback_login(request: Request):
     PROXY_BASE_URL should be the your deployed proxy endpoint, e.g. PROXY_BASE_URL="https://litellm-production-7002.up.railway.app/"
     Example:
     """
-    from litellm.proxy.proxy_server import ui_link
-
     # get url from request
     redirect_url = get_custom_url(str(request.base_url))
     ui_username = os.getenv("UI_USERNAME")
@@ -9054,7 +9055,9 @@ async def update_config(config_info: ConfigYAML):  # noqa: PLR0915
                 if isinstance(
                     config["litellm_settings"]["success_callback"], list
                 ) and isinstance(updated_litellm_settings["success_callback"], list):
-                    updated_success_callbacks_normalized = normalize_callback_names(updated_litellm_settings["success_callback"])
+                    updated_success_callbacks_normalized = normalize_callback_names(
+                        updated_litellm_settings["success_callback"]
+                    )
                     combined_success_callback = (
                         config["litellm_settings"]["success_callback"]
                         + updated_success_callbacks_normalized
@@ -10204,7 +10207,6 @@ async def dynamic_mcp_route(mcp_server_name: str, request: Request):
         from litellm.proxy._experimental.mcp_server.mcp_server_manager import (
             global_mcp_server_manager,
         )
-        from litellm.types.mcp import MCPAuth
 
         mcp_server = global_mcp_server_manager.get_mcp_server_by_name(mcp_server_name)
         if mcp_server is None:
