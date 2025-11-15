@@ -150,14 +150,6 @@ class MCPServerManager:
                         )
                         break
 
-            # Create a temporary server object to use with get_server_prefix utility
-            temp_server = type(
-                "TempServer",
-                (),
-                {"alias": alias, "server_name": server_name, "server_id": None},
-            )()
-            name_for_prefix = get_server_prefix(temp_server)
-
             # Use alias for name if present, else server_name
             alias = server_config.get("alias", None)
 
@@ -756,7 +748,7 @@ class MCPServerManager:
             )
 
             authorization_servers: List[str] = []
-            resource_scopes: Optional[List[str]] = None
+            resource_scopes: List[str] = []
             if resource_metadata_url:
                 (
                     authorization_servers,
